@@ -495,8 +495,6 @@ namespace gitadora_texbintool
 
         static void ParseTexbinFile(string filename, bool splitImages = true)
         {
-            var outputPath = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
-            Directory.CreateDirectory(outputPath);
 
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
@@ -525,6 +523,9 @@ namespace gitadora_texbintool
                     Console.WriteLine("This file doesn't contain any image data.");
                     return;
                 }
+
+                var outputPath = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
+                Directory.CreateDirectory(outputPath);
 
                 var entries = ReadNameSection(reader, nameOffset);
                 ReadDataEntrySection(reader, dataEntryOffset, fileCount, entries);
@@ -556,6 +557,7 @@ namespace gitadora_texbintool
 
                 var formatMetadata = new FormatMetadata();
                 foreach (var entry in entries)
+
                 {
                     reader.BaseStream.Seek(entry.DataOffset, SeekOrigin.Begin);
 
